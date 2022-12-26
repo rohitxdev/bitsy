@@ -1,0 +1,27 @@
+{
+    "ts-node": {
+        "esm": true
+    },
+    "compilerOptions": {
+        "allowJs": true,
+        "strict": true,
+        "module": "ESNext",
+        "target": "ESNext",
+        "removeComments": true,
+        "preserveWatchOutput": false,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "Node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noEmitOnError": true,
+        "outDir": "./dist"
+    },
+    "include": [
+        "src",
+    ]
+}

@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext",
+      "WebWorker"
+    ],
+    "noEmit": true,
+    "strict": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "preserveWatchOutput": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noEmitOnError": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@assets/*": [
+        "./src/assets/*"
+      ],
+      "@components": [
+        "./src/components"
+      ],
+      "@pages": [
+        "./src/pages"
+      ],
+      "@hooks": [
+        "./src/hooks"
+      ],
+      "@utils": [
+        "./src/utils"
+      ],
+    }
+  },
+  "include": [
+    "src",
+    "vite-env.d.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}

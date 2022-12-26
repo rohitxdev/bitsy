@@ -1,0 +1,45 @@
+@use "../../config" as *;
+
+.alert-dialog {
+    @include flex-center;
+    gap: 1rem;
+    padding: 1em 1.5em;
+    border-radius: 2em / 2em;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    animation: slide-up 3s ease-in-out 1 forwards;
+
+    svg {
+        color: inherit;
+    }
+
+    &.error {
+        background-color: var(--clr-error);
+        color: var(--clr-neutral-light);
+
+    }
+
+    &.info {
+        background-color: var(--clr-neutral-light);
+        color: var(--clr-neutral-dark);
+    }
+}
+
+@keyframes slide-up {
+    0% {
+        transform: translate(-50%, 0);
+    }
+
+    10% {
+        transform: translate(-50%, -200%);
+    }
+
+    90% {
+        transform: translate(-50%, -200%);
+    }
+
+    100% {
+        transform: translate(-50%, 0);
+    }
+}

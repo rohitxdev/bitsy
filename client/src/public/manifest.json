@@ -1,0 +1,10 @@
+{
+  "name": "Bitsy",
+  "version": "0.1.0",
+  "description": "A free URL shortener extension with QR code support",
+  "permissions": ["tabs"],
+  "host_permissions": "*",
+  "background": {
+    "service_worker": "service-worker.js"
+  }
+}

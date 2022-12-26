@@ -1,0 +1,121 @@
+@use '../../config' as *;
+
+.home {
+    display: grid;
+    place-items: center;
+    gap: 2rem;
+}
+
+.banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--clr-neutral-light);
+    gap: 0.5rem;
+
+    .title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+
+        img {
+            height: 5rem;
+            width: 5rem;
+        }
+
+        p {
+            font-size: 5rem;
+            font-variation-settings: 'wght' 800;
+        }
+    }
+
+    .description {
+        text-align: center;
+        font-size: 1.5rem;
+        font-variation-settings: 'wght' 500;
+    }
+
+}
+
+.original-url {
+    @include flex-center;
+    gap: 0.5rem;
+    margin: 0 1rem;
+
+    .input-container {
+        @include flex-center;
+        flex-wrap: nowrap;
+        border: 2px solid var(--clr-primary);
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+
+        input {
+            outline: none;
+            border: none;
+            font-size: 1.25rem;
+            background-color: var(--clr-secondary);
+            color: var(--clr-neutral-light);
+            padding: 0 0.5rem;
+        }
+
+    }
+
+    .shorten-btn {
+        background-color: var(--clr-primary);
+        outline: none;
+        padding: 0.5rem 1rem;
+        font-variation-settings: 'wght' 700;
+        font-size: 1.25rem;
+        color: var(--clr-secondary);
+        border-radius: 0.5em;
+        border: 2px solid var(--clr-primary);
+        margin: 0.5rem 0;
+    }
+}
+
+.clear-btn {
+    @include flex-center;
+    background-color: transparent;
+    transition: all linear 0.1s;
+
+    &.show {
+        opacity: 1;
+        pointer-events: initial;
+    }
+
+    &.hide {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    svg {
+        color: var(--clr-neutral-light);
+        height: 1.75em;
+        width: 1.75em;
+    }
+}
+
+.shortened-url-container {
+    @include grid-center;
+    width: 100%;
+    height: 6rem;
+}
+
+.github-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.5rem;
+    transition: transform 0.1s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    svg {
+        fill: var(--clr-neutral-light);
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+}
