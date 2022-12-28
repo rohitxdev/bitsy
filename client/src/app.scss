@@ -35,9 +35,3 @@ button {
 svg {
     pointer-events: none;
 }
-
-@media (orientation: portrait) {
-    body {
-        overflow: hidden;
-    }
-}

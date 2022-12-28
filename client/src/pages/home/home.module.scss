@@ -32,8 +32,7 @@
 
     .description {
         text-align: center;
-        font-size: 1.5rem;
-        font-variation-settings: 'wght' 500;
+        color: var(--clr-neutral-grey);
     }
 
 }
@@ -96,7 +95,7 @@
     }
 }
 
-.shortened-url-container {
+.short-url-container {
     @include grid-center;
     width: 100%;
     height: 6rem;

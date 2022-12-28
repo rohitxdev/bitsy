@@ -1,23 +1,31 @@
 @use '../../config' as *;
 
 
-.shortened-url {
+.short-url-container {
     @include flex-center;
     gap: 1rem;
-    margin: 0 1rem;
+    margin: 1rem;
 
-    p {
+    .short-url {
         border-radius: 0.75rem;
         padding: 1rem 2rem;
         border: 2px dashed var(--clr-neutral-grey);
         text-align: center;
         color: var(--clr-neutral-light);
+        width: 100%;
         font-size: 1.2rem;
+    }
+
+    .btns {
+        @include flex-center;
+        gap: 1.5rem;
     }
 }
 
 .copy-btn,
 .qr-code-btn {
+    @include flex-center;
+    gap: 0.5rem;
     background-color: var(--clr-neutral-light);
     border: none;
     border-radius: 50%;

@@ -7,7 +7,29 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgb(0 0 0 / 0.7);
+    transition: all 0.2s;
+
+
+    &.show {
+        backdrop-filter: blur(5px) brightness(0.75);
+        pointer-events: all;
+
+        .qr-code {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    &.hide {
+        backdrop-filter: blur(0) brightness(1);
+        pointer-events: none;
+
+        .qr-code {
+            opacity: 0;
+            transform: scale(0.1);
+        }
+    }
+
 }
 
 
@@ -18,7 +40,7 @@
     border-radius: 1em;
     gap: 1.5em;
     width: clamp(200px, 80vw, 30rem);
-    animation: zoom-out 0.2s ease-in-out 1 forwards;
+    transition: all 0.2s;
 
     .canvas {
         border-radius: 1rem;
@@ -51,18 +73,5 @@
         svg {
             color: var(--clr-secondary);
         }
-    }
-}
-
-
-@keyframes zoom-out {
-    from {
-        opacity: 0;
-        transform: scale(0.1);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
     }
 }

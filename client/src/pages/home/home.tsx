@@ -6,9 +6,8 @@ import { AlertDialog, Loader, ShortenedUrl } from "@components";
 
 export function Home() {
   const [originalURL, setOriginalURL] = useState("");
-  const [shortenedURL, setShortenedURL] = useState("");
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [shortURL, setShortURL] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>("");
   const [isLoading, setIsLoading] = useState(false);
   const apiEndpoint = (import.meta.env.DEV ? "http://localhost:4000" : location.origin) + "/api/shorten-url";
 
@@ -26,28 +25,28 @@ export function Home() {
         /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
       );
       if (!urlRegex.test(originalURL)) {
-        setShowErrorMessage(true);
-        if (!showErrorMessage) {
+        setErrorMessage("Invalid URL");
+        if (!errorMessage) {
           setTimeout(() => {
-            setShowErrorMessage(false);
+            setErrorMessage(null);
           }, 4000);
         }
         return;
       }
       setIsLoading(true);
-      const controller = new AbortController();
-      const response = await fetch(apiEndpoint, { method: "POST", body: originalURL, signal: controller.signal });
+      const response = await fetch(apiEndpoint, {
+        method: "POST",
+        body: /^https?:\/\//.test(originalURL) ? originalURL : `http://${originalURL}`,
+      });
       if (response.ok) {
         const data = await response.text();
-        setShortenedURL(data);
+        setShortURL(data);
         setIsLoading(false);
       } else {
         throw new Error("Could not get shortened URL.");
       }
     } catch (err) {
-      if (err instanceof Error) {
-        console.error(err.message);
-      }
+      console.error(err);
     }
   };
 
@@ -74,8 +73,7 @@ export function Home() {
             Bitsy
           </p>
         </div>
-        {/* <p className={styles.description}>Free URL Shortener</p> */}
-        <p style={{ color: "grey", textAlign: "center" }}>
+        <p className={styles.description}>
           Bitsy is a free tool to shorten URLS. Create short & memorable links in seconds.
         </p>
       </section>
@@ -100,10 +98,10 @@ export function Home() {
           Shorten!
         </button>
       </div>
-      <div className={styles.shortenedUrlContainer}>
-        {isLoading ? <Loader /> : shortenedURL && <ShortenedUrl shortenedURL={shortenedURL} />}
+      <div className={styles.shortUrlContainer}>
+        {isLoading ? <Loader /> : shortURL && <ShortenedUrl shortURL={shortURL} />}
       </div>
-      {showErrorMessage && <AlertDialog message={"Invalid URL"} type="error" />}
+      {errorMessage && <AlertDialog message={errorMessage} type="error" />}
     </div>
   );
 }

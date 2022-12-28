@@ -1,18 +1,18 @@
-import { Request, RequestHandler, Response } from "express";
+import { RequestHandler } from "express";
 import crypto from "crypto";
-import { app } from "../utils/server.js";
+import { db } from "../helpers/db-adapter.js";
 
 async function getShortenedPath(originalUrl: string): Promise<string> {
   const shortenedPath = crypto.randomInt(0, 10e9).toString(36).slice(0, 5);
-  const query = await app.db.query<{ id: string }>("SELECT id FROM bitsy_urls WHERE original_url=$1;", [originalUrl]);
+  const query = await db.query<{ id: string }>("SELECT id FROM bitsy_urls WHERE original_url=$1;", [originalUrl]);
   if (query.rowCount !== 0) {
     return query.rows[0].id;
   }
-  const query2 = await app.db.query<{ id: string }>(`SELECT id FROM bitsy_urls WHERE id=$1;`, [shortenedPath]);
+  const query2 = await db.query<{ id: string }>(`SELECT id FROM bitsy_urls WHERE id=$1;`, [shortenedPath]);
   if (query2.rowCount !== 0) {
     return await getShortenedPath(originalUrl);
   }
-  await app.db.query("INSERT INTO bitsy_urls(id,original_url) VALUES($1,$2)", [shortenedPath, originalUrl]);
+  await db.query("INSERT INTO bitsy_urls(id,original_url) VALUES($1,$2)", [shortenedPath, originalUrl]);
 
   return shortenedPath;
 }

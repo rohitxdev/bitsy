@@ -2,66 +2,53 @@ import { memo, useEffect, useRef, useState } from "react";
 import styles from "./qr-code.module.scss";
 import qrcode from "qrcode";
 import DownloadIcon from "@assets/icons/download.svg";
-import CrossIcon from "@assets/icons/cross.svg";
 
 export const QrCode = memo(
   ({
-    shortenedURL,
+    shortURL,
+    showQrCode,
     setShowQrCode,
   }: {
-    shortenedURL: string;
+    shortURL: string;
+    showQrCode: boolean;
     setShowQrCode: React.Dispatch<React.SetStateAction<boolean>>;
   }) => {
+    const [downloadLink, setDownloadLink] = useState<string | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const downloadLinkRef = useRef<HTMLAnchorElement | null>(null);
-    const canvasSizeinPixels = 1000;
-
-    const hideQrCode = () => {
-      setShowQrCode(false);
-    };
+    const canvasSize = 1000; //In pixels.
 
     useEffect(() => {
-      qrcode.toDataURL(
-        shortenedURL,
-        { width: canvasSizeinPixels * 0.6, color: { light: "#ff748f", dark: "#000" } },
-        (err, url) => {
-          if (err) {
-            return console.error(err);
-          }
-          const ctx = canvasRef.current?.getContext("2d");
-          const logoImg = new Image();
-          const qrCodeImg = new Image();
-          logoImg.src = new URL("/macaw.webp", import.meta.url).href;
-          qrCodeImg.src = url;
-          qrCodeImg.onload = () => {
-            if (ctx) {
-              ctx.font = "bold 2rem Alexandria";
-              const textWidth = ctx.measureText(shortenedURL).width;
-              ctx.fillStyle = "#121216";
-              ctx.fillRect(0, 0, canvasSizeinPixels, canvasSizeinPixels);
-              ctx.fillStyle = "white";
-              ctx.fillText(shortenedURL, (canvasSizeinPixels - textWidth) / 2 + 50, canvasSizeinPixels * 0.9);
-              ctx.drawImage(
-                qrCodeImg,
-                canvasSizeinPixels * 0.15,
-                canvasSizeinPixels * 0.1,
-                canvasSizeinPixels * 0.7,
-                canvasSizeinPixels * 0.7
-              );
-              ctx.drawImage(logoImg, (canvasSizeinPixels - textWidth) / 2 - 20, canvasSizeinPixels * 0.9 - 35, 50, 50);
-              if (downloadLinkRef.current && canvasRef.current) {
-                downloadLinkRef.current.href = canvasRef.current.toDataURL("image/png", 1);
-              }
-            }
-          };
-
-          return () => {
-            if (canvasRef.current && ctx) {
-              ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-            }
-          };
+      qrcode.toDataURL(shortURL, { width: canvasSize * 0.6, color: { light: "#ff748f", dark: "#000" } }, (err, url) => {
+        if (err) {
+          console.error(err);
+          return;
         }
-      );
+
+        const ctx = canvasRef.current?.getContext("2d");
+        const logoImg = new Image();
+        const qrCodeImg = new Image();
+        logoImg.src = new URL("/macaw.webp", import.meta.url).href;
+        qrCodeImg.src = url;
+        qrCodeImg.onload = () => {
+          if (ctx) {
+            ctx.font = "bold 2rem Alexandria";
+            const textWidth = ctx.measureText(shortURL).width;
+            ctx.fillStyle = "#121216";
+            ctx.fillRect(0, 0, canvasSize, canvasSize);
+            ctx.fillStyle = "white";
+            ctx.fillText(shortURL, (canvasSize - textWidth) / 2 + 35, canvasSize * 0.9);
+            ctx.drawImage(qrCodeImg, canvasSize * 0.15, canvasSize * 0.1, canvasSize * 0.7, canvasSize * 0.7);
+            ctx.drawImage(logoImg, (canvasSize - textWidth) / 2 - 20, canvasSize * 0.9 - 35, 50, 50);
+            setDownloadLink(canvasRef.current?.toDataURL("image/png", 1) ?? null);
+          }
+        };
+
+        return () => {
+          if (canvasRef.current && ctx) {
+            ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+          }
+        };
+      });
     }, []);
 
     useEffect(() => {
@@ -77,16 +64,31 @@ export const QrCode = memo(
     }, []);
 
     return (
-      <div className={styles.qrCodeContainer}>
+      <div
+        className={[styles.qrCodeContainer, showQrCode ? styles.show : styles.hide].join(" ")}
+        onClick={(e) => {
+          setShowQrCode(false);
+        }}
+      >
         <div className={styles.qrCode}>
-          <button className={styles.closeBtn} onClick={hideQrCode}>
-            <CrossIcon />
-          </button>
-          <canvas height={1000} width={1000} className={styles.canvas} ref={canvasRef}></canvas>
-          <a download="qr-code.png" className={styles.downloadLink} ref={downloadLinkRef}>
-            Download
-            <DownloadIcon />
-          </a>
+          <canvas
+            height={1000}
+            width={1000}
+            className={styles.canvas}
+            ref={canvasRef}
+            onClick={(e) => e.stopPropagation()}
+          ></canvas>
+          {downloadLink && (
+            <a
+              download="qr-code.png"
+              className={styles.downloadLink}
+              href={downloadLink}
+              onClick={(e) => e.stopPropagation()}
+            >
+              Download
+              <DownloadIcon />
+            </a>
+          )}
         </div>
       </div>
     );
