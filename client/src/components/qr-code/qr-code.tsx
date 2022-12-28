@@ -30,17 +30,19 @@ export const QrCode = memo(
         logoImg.src = new URL("/macaw.webp", import.meta.url).href;
         qrCodeImg.src = url;
         qrCodeImg.onload = () => {
-          if (ctx) {
-            ctx.font = "bold 2rem Alexandria";
-            const textWidth = ctx.measureText(shortURL).width;
-            ctx.fillStyle = "#121216";
-            ctx.fillRect(0, 0, canvasSize, canvasSize);
-            ctx.fillStyle = "white";
-            ctx.fillText(shortURL, (canvasSize - textWidth) / 2 + 35, canvasSize * 0.9);
-            ctx.drawImage(qrCodeImg, canvasSize * 0.15, canvasSize * 0.1, canvasSize * 0.7, canvasSize * 0.7);
-            ctx.drawImage(logoImg, (canvasSize - textWidth) / 2 - 20, canvasSize * 0.9 - 35, 50, 50);
-            setDownloadLink(canvasRef.current?.toDataURL("image/png", 1) ?? null);
-          }
+          logoImg.onload = () => {
+            if (ctx) {
+              ctx.font = "bold 2rem Alexandria";
+              const textWidth = ctx.measureText(shortURL).width;
+              ctx.fillStyle = "#121216";
+              ctx.fillRect(0, 0, canvasSize, canvasSize);
+              ctx.fillStyle = "white";
+              ctx.fillText(shortURL, (canvasSize - textWidth) / 2 + 35, canvasSize * 0.9);
+              ctx.drawImage(qrCodeImg, canvasSize * 0.15, canvasSize * 0.1, canvasSize * 0.7, canvasSize * 0.7);
+              ctx.drawImage(logoImg, (canvasSize - textWidth) / 2 - 20, canvasSize * 0.9 - 35, 50, 50);
+              setDownloadLink(canvasRef.current?.toDataURL("image/png", 1) ?? null);
+            }
+          };
         };
 
         return () => {
