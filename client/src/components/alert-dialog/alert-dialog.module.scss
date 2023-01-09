@@ -1,4 +1,4 @@
-@use "../../config" as *;
+@use "../../app/config" as *;
 
 .alert-dialog {
     @include flex-center;
@@ -9,7 +9,7 @@
     top: 100%;
     left: 50%;
     z-index: 1000;
-    animation: slide-up 3s ease-in-out 1 forwards;
+    animation: slide-up 3s ease 1 forwards;
 
     svg {
         color: inherit;

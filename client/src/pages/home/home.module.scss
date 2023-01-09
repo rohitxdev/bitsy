@@ -1,9 +1,14 @@
-@use '../../config' as *;
+@use "../../app/config" as *;
 
 .home {
+    background-color: var(--clr-secondary);
+    height: var(--vh);
+    width: var(--vw);
     display: grid;
-    place-items: center;
+    place-content: center;
     gap: 2rem;
+    padding: 0.5rem;
+    overflow: hidden;
 }
 
 .banner {
@@ -14,18 +19,18 @@
     gap: 0.5rem;
 
     .title {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        @include flex-center;
         gap: 1em;
 
+        --size: calc(4rem + 2vw);
+
         img {
-            height: 5rem;
-            width: 5rem;
+            height: var(--size);
+            width: var(--size);
         }
 
         p {
-            font-size: 5rem;
+            font-size: var(--size);
             font-variation-settings: 'wght' 800;
         }
     }
@@ -37,9 +42,9 @@
 
 }
 
-.original-url {
+.long-url {
     @include flex-center;
-    gap: 0.5rem;
+    gap: 1rem 0.5rem;
     margin: 0 1rem;
 
     .input-container {
@@ -56,20 +61,19 @@
             background-color: var(--clr-secondary);
             color: var(--clr-neutral-light);
             padding: 0 0.5rem;
+            caret-color: var(--clr-primary);
         }
 
     }
 
     .shorten-btn {
         background-color: var(--clr-primary);
-        outline: none;
         padding: 0.5rem 1rem;
         font-variation-settings: 'wght' 700;
         font-size: 1.25rem;
         color: var(--clr-secondary);
         border-radius: 0.5em;
         border: 2px solid var(--clr-primary);
-        margin: 0.5rem 0;
     }
 }
 

@@ -3,23 +3,19 @@ import { useState } from "react";
 import CopyIcon from "@assets/icons/copy.svg";
 import QRCodeIcon from "@assets/icons/qr-code.svg";
 import { AlertDialog, QrCode } from "@components";
+import { useAlert } from "@hooks";
 
 export function ShortenedUrl({ shortURL }: { shortURL: string }) {
   const [showQrCode, setShowQrCode] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+  const { alert, setAlert } = useAlert(3000);
 
   const copyUrlHandler = async () => {
     await navigator.clipboard.writeText(shortURL);
-    setShowAlert(true);
-    if (!showAlert) {
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 4000);
-    }
+    setAlert("URL copied!");
   };
 
   const toggleQrCodeHandler = () => {
-    setShowQrCode(!showQrCode);
+    setShowQrCode((state) => !state);
   };
 
   return (
@@ -36,7 +32,7 @@ export function ShortenedUrl({ shortURL }: { shortURL: string }) {
         </button>
       </div>
       <QrCode shortURL={shortURL} showQrCode={showQrCode} setShowQrCode={setShowQrCode} />
-      {showAlert && <AlertDialog message="URL copied!" type="info" />}
+      {alert && <AlertDialog message={alert} type="info" />}
     </div>
   );
 }

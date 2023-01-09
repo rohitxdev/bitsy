@@ -11,19 +11,13 @@
     --clr-neutral-grey: #929294;
     --clr-neutral-light: #ffffff;
     --clr-error: #e83232;
+    -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
 }
 
 @font-face {
     font-family: "Alexandria";
     src: url('@assets/fonts/alexandria-variable-font.woff2') format('woff2');
-}
-
-body {
-    height: 100vh;
-    width: 100vw;
-    background-color: var(--clr-secondary);
-    display: grid;
-    place-items: center;
 }
 
 button {

@@ -1,4 +1,4 @@
-import { DB_URL } from "../config/env-variables.js";
+import { DB_URL } from "../config/secrets.js";
 import pg from "pg";
 
 export const db = new pg.Pool({ connectionString: DB_URL });

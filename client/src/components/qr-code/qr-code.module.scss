@@ -1,4 +1,4 @@
-@use '../../config' as *;
+@use "../../app/config" as *;
 
 .qr-code-container {
     @include grid-center;
@@ -11,7 +11,7 @@
 
 
     &.show {
-        backdrop-filter: blur(5px) brightness(0.75);
+        background-color: rgb(0 0 0 / 0.8);
         pointer-events: all;
 
         .qr-code {
@@ -21,12 +21,12 @@
     }
 
     &.hide {
-        backdrop-filter: blur(0) brightness(1);
+        background-color: rgb(0 0 0 / 0);
         pointer-events: none;
 
         .qr-code {
             opacity: 0;
-            transform: scale(0.1);
+            transform: scale(0);
         }
     }
 
@@ -37,9 +37,11 @@
 
 .qr-code {
     @include grid-center;
+    background-color: var(--clr-secondary);
     border-radius: 1em;
-    gap: 1.5em;
+    padding-bottom: 1em;
     width: clamp(200px, 80vw, 30rem);
+    outline: var(--clr-primary) solid 2px;
     transition: all 0.2s;
 
     .canvas {

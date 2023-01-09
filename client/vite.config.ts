@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => ({
   },
   envDir: "./src/config/",
   publicDir: "./src/public/",
-  plugins: [react(), svgr({ exportAsDefault: true, svgrOptions: { icon: true } })],
+  plugins: [react(), svgr({ exportAsDefault: true })],
   resolve: {
     alias: {
       "@assets": resolve(__dirname, "./src/assets"),
@@ -39,5 +39,14 @@ export default defineConfig(({ mode }) => ({
       "@utils": resolve(__dirname, "./src/utils"),
     },
   },
-  server: { host: true, port: 3000 },
+  server: {
+    host: true,
+    port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://0.0.0.0:4000",
+        changeOrigin: true,
+      },
+    },
+  },
 }));

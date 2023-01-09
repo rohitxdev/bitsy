@@ -1,10 +1,8 @@
-@use '../../config' as *;
-
+@use "../../app/config" as *;
 
 .short-url-container {
     @include flex-center;
     gap: 1rem;
-    margin: 1rem;
 
     .short-url {
         border-radius: 0.75rem;

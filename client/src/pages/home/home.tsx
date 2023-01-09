@@ -1,22 +1,23 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./home.module.scss";
 import CrossIcon from "@assets/icons/cross.svg";
 import GithubIcon from "@assets/icons/github.svg";
 import { AlertDialog, Loader, ShortenedUrl } from "@components";
+import { useAlert, useViewportSize } from "@hooks";
 
 export function Home() {
-  const [originalURL, setOriginalURL] = useState("");
+  const [longURL, setLongURL] = useState("");
   const [shortURL, setShortURL] = useState("");
-  const [errorMessage, setErrorMessage] = useState<string | null>("");
+  const { alert, setAlert } = useAlert(3000);
   const [isLoading, setIsLoading] = useState(false);
-  const apiEndpoint = (import.meta.env.DEV ? "http://localhost:4000" : location.origin) + "/api/shorten-url";
+  const { vh, vw } = useViewportSize();
 
   const inputHandler: React.FormEventHandler<HTMLInputElement> = (e) => {
-    setOriginalURL(e.currentTarget.value);
+    setLongURL(e.currentTarget.value);
   };
 
   const clearInputHandler = () => {
-    setOriginalURL("");
+    setLongURL("");
   };
 
   const getShortenedURL = async () => {
@@ -24,40 +25,35 @@ export function Home() {
       const urlRegex = new RegExp(
         /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
       );
-      if (!urlRegex.test(originalURL)) {
-        setErrorMessage("Invalid URL");
-        if (!errorMessage) {
-          setTimeout(() => {
-            setErrorMessage(null);
-          }, 4000);
-        }
+      if (!urlRegex.test(longURL)) {
+        setAlert("Invalid URL");
         return;
       }
       setIsLoading(true);
-      const response = await fetch(apiEndpoint, {
+      const res = await fetch("/api/shorten-url", {
         method: "POST",
-        body: /^https?:\/\//.test(originalURL) ? originalURL : `http://${originalURL}`,
+        body: /^https?:\/\//.test(longURL) ? longURL : `http://${longURL}`,
       });
-      if (response.ok) {
-        const data = await response.text();
-        setShortURL(data);
-        setIsLoading(false);
-      } else {
+      if (!res.ok) {
         throw new Error("Could not get shortened URL.");
       }
+      const data = await res.text();
+      setShortURL(`${location.origin}/${data}`);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const keyDownHandler: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === "Enter" && originalURL) {
+    if (e.key === "Enter" && longURL) {
       getShortenedURL();
     }
   };
 
   return (
-    <div className={styles.home}>
+    <div className={styles.home} style={{ "--vh": vh + "px", "--vw": vw + "px" } as React.CSSProperties}>
       <a
         href="https://github.com/rohitreddygr8/bitsy"
         target="_blank"
@@ -77,18 +73,18 @@ export function Home() {
           Bitsy is a free tool to shorten URLS. Create short & memorable links in seconds.
         </p>
       </section>
-      <div className={styles.originalUrl}>
+      <div className={styles.longUrl}>
         <div className={styles.inputContainer}>
           <input
             type="text"
-            aria-label="Original URL"
+            aria-label="Long URL"
             placeholder="Enter URL..."
-            value={originalURL}
+            value={longURL}
             onInput={inputHandler}
             onKeyDown={keyDownHandler}
           />
           <button
-            className={[styles.clearBtn, originalURL ? styles.show : styles.hide].join(" ")}
+            className={[styles.clearBtn, longURL ? styles.show : styles.hide].join(" ")}
             onClick={clearInputHandler}
           >
             <CrossIcon />
@@ -101,7 +97,7 @@ export function Home() {
       <div className={styles.shortUrlContainer}>
         {isLoading ? <Loader /> : shortURL && <ShortenedUrl shortURL={shortURL} />}
       </div>
-      {errorMessage && <AlertDialog message={errorMessage} type="error" />}
+      {alert && <AlertDialog message={alert} type="error" />}
     </div>
   );
 }
