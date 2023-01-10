@@ -7,11 +7,11 @@ import { useAlert } from "@hooks";
 
 export function ShortenedUrl({ shortURL }: { shortURL: string }) {
   const [showQrCode, setShowQrCode] = useState(false);
-  const { alert, setAlert } = useAlert(3000);
+  const { alertMessage, setAlertMessage } = useAlert(3000);
 
   const copyUrlHandler = async () => {
     await navigator.clipboard.writeText(shortURL);
-    setAlert("URL copied!");
+    setAlertMessage("URL copied!");
   };
 
   const toggleQrCodeHandler = () => {
@@ -32,7 +32,7 @@ export function ShortenedUrl({ shortURL }: { shortURL: string }) {
         </button>
       </div>
       <QrCode shortURL={shortURL} showQrCode={showQrCode} setShowQrCode={setShowQrCode} />
-      {alert && <AlertDialog message={alert} type="info" />}
+      {alertMessage && <AlertDialog message={alertMessage} type="info" />}
     </div>
   );
 }

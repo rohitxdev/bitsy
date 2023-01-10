@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 
 export function useAlert(timeOutInMs: number) {
-  const [alert, setAlert] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const timeOutFn = setTimeout(() => {
-      setAlert(null);
+      setAlertMessage(null);
     }, timeOutInMs);
 
     return () => {
       clearTimeout(timeOutFn);
     };
-  }, [alert]);
+  }, [alertMessage]);
 
-  return { alert, setAlert };
+  return { alertMessage, setAlertMessage };
 }

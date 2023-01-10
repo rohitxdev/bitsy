@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./qr-code.module.scss";
 import qrcode from "qrcode";
 import DownloadIcon from "@assets/icons/download.svg";
@@ -13,8 +13,9 @@ export const QrCode = ({
   setShowQrCode: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const downloadLinkRef = useRef<HTMLAnchorElement | null>(null);
   const canvasSize = 1000; //In pixels.
-  const [downloadLink, setDownloadLink] = useState("");
+
   useEffect(() => {
     qrcode.toDataURL(shortURL, { width: canvasSize * 0.6, color: { light: "#ff748f", dark: "#000" } }, (err, url) => {
       if (err) {
@@ -32,10 +33,12 @@ export const QrCode = ({
         ctx.fillRect(0, 0, canvasSize, canvasSize);
         ctx.fillStyle = "white";
         ctx.fillText(shortURL, (canvasSize - textWidth) / 2 + 35, canvasSize * 0.9);
-        ctx.drawImage(qrCodeImg, canvasSize * 0.15, canvasSize * 0.1, canvasSize * 0.7, canvasSize * 0.7);
-        ctx.drawImage(logoImg, (canvasSize - textWidth) / 2 - 30, canvasSize * 0.9 - 35, 50, 50);
-        if (canvasRef.current) {
-          setDownloadLink(canvasRef.current?.toDataURL("image/png", 1));
+        setTimeout(() => {
+          ctx.drawImage(qrCodeImg, canvasSize * 0.15, canvasSize * 0.1, canvasSize * 0.7, canvasSize * 0.7);
+          ctx.drawImage(logoImg, (canvasSize - textWidth) / 2 - 30, canvasSize * 0.9 - 35, 50, 50);
+        }, 0);
+        if (downloadLinkRef.current && canvasRef.current) {
+          downloadLinkRef.current.href = canvasRef.current?.toDataURL("image/png", 1);
         }
       }
 
@@ -77,8 +80,7 @@ export const QrCode = ({
         <a
           download="qr-code.png"
           className={styles.downloadLink}
-          href={downloadLink}
-          hidden={Boolean(downloadLink)}
+          ref={downloadLinkRef}
           onClick={(e) => e.stopPropagation()}
         >
           Download

@@ -8,7 +8,7 @@ import { useAlert, useViewportSize } from "@hooks";
 export function Home() {
   const [longURL, setLongURL] = useState("");
   const [shortURL, setShortURL] = useState("");
-  const { alert, setAlert } = useAlert(3000);
+  const { alertMessage, setAlertMessage } = useAlert(3000);
   const [isLoading, setIsLoading] = useState(false);
   const { vh, vw } = useViewportSize();
 
@@ -26,7 +26,7 @@ export function Home() {
         /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
       );
       if (!urlRegex.test(longURL)) {
-        setAlert("Invalid URL");
+        setAlertMessage("Invalid URL");
         return;
       }
       setIsLoading(true);
@@ -70,7 +70,7 @@ export function Home() {
           </p>
         </div>
         <p className={styles.description}>
-          Bitsy is a free tool to shorten URLS. Create short & memorable links in seconds.
+          Bitsy is a free tool to shorten URLs. Create short & memorable links in seconds.
         </p>
       </section>
       <div className={styles.longUrl}>
@@ -97,7 +97,7 @@ export function Home() {
       <div className={styles.shortUrlContainer}>
         {isLoading ? <Loader /> : shortURL && <ShortenedUrl shortURL={shortURL} />}
       </div>
-      {alert && <AlertDialog message={alert} type="error" />}
+      {alertMessage && <AlertDialog message={alertMessage} type="error" />}
     </div>
   );
 }
