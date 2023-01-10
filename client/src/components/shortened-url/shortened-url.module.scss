@@ -1,24 +1,18 @@
 @use "../../app/config" as *;
 
-.short-url-container {
+.short-url {
+    border-radius: 0.75rem;
+    padding: 1rem 2rem;
+    width: 100%;
+    border: 2px dashed var(--clr-neutral-grey);
+    text-align: center;
+    color: var(--clr-neutral-light);
+    word-break: break-all;
+}
+
+.btns {
     @include flex-center;
-    gap: 1rem;
-    margin: 0 1em;
-
-    .short-url {
-        border-radius: 0.75rem;
-        padding: 1rem 2rem;
-        border: 2px dashed var(--clr-neutral-grey);
-        text-align: center;
-        color: var(--clr-neutral-light);
-        width: 100%;
-        font-size: 1.2rem;
-    }
-
-    .btns {
-        @include flex-center;
-        gap: 1.5rem;
-    }
+    gap: 1.5rem;
 }
 
 .copy-btn,

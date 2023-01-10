@@ -101,7 +101,8 @@
 }
 
 .short-url-container {
-    @include grid-center;
+    @include flex-center;
+    padding: 0 1em;
     width: 100%;
     height: 10rem;
 }

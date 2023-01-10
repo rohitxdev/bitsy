@@ -11,7 +11,7 @@
 
 
     &.show {
-        background-color: rgb(0 0 0 / 0.8);
+        background-color: rgb(0 0 0 / 0.9);
         pointer-events: all;
 
         .qr-code {
@@ -41,7 +41,7 @@
     border-radius: 1em;
     padding-bottom: 1em;
     width: clamp(200px, 80vw, 30rem);
-    outline: var(--clr-primary) solid 2px;
+    outline: var(--clr-neutral-grey) solid 1px;
     transition: all 0.2s;
 
     .canvas {

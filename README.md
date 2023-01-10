@@ -1,5 +1,5 @@
 
-<div style="display:flex;justify-content:center;align-items:center; gap:0.5em;"><h1>Bitsy</h1><img src="https://i.postimg.cc/HLpvFtRb/macaw.webp" height="30"></div>
+# Bitsy
 
 A URL shortener made with React.js, TypeScript, Express.js, and PostgreSQL.
 

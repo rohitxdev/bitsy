@@ -19,7 +19,7 @@ export function ShortenedUrl({ shortURL }: { shortURL: string }) {
   };
 
   return (
-    <div className={styles.shortUrlContainer}>
+    <>
       <p aria-label="Shortened URL" className={styles.shortUrl}>
         {shortURL}
       </p>
@@ -33,6 +33,6 @@ export function ShortenedUrl({ shortURL }: { shortURL: string }) {
       </div>
       <QrCode shortURL={shortURL} showQrCode={showQrCode} setShowQrCode={setShowQrCode} />
       {alertMessage && <AlertDialog message={alertMessage} type="info" />}
-    </div>
+    </>
   );
 }
