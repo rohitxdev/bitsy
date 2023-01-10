@@ -1,6 +1,6 @@
 {
   "name": "bitsy",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "type": "module",
   "description": "A URL shortener made with React.js, TypeScript, Node.js, and PostgreSQL.",
   "repository": {
