@@ -36,10 +36,10 @@ export const QrCode = ({
         setTimeout(() => {
           ctx.drawImage(qrCodeImg, canvasSize * 0.15, canvasSize * 0.1, canvasSize * 0.7, canvasSize * 0.7);
           ctx.drawImage(logoImg, (canvasSize - textWidth) / 2 - 30, canvasSize * 0.9 - 35, 50, 50);
+          if (downloadLinkRef.current && canvasRef.current) {
+            downloadLinkRef.current.href = canvasRef.current?.toDataURL("image/png", 1);
+          }
         }, 0);
-        if (downloadLinkRef.current && canvasRef.current) {
-          downloadLinkRef.current.href = canvasRef.current?.toDataURL("image/png", 1);
-        }
       }
 
       return () => {
