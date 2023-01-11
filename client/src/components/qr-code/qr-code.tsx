@@ -48,7 +48,7 @@ export const QrCode = ({
         }
       };
     });
-  });
+  }, []);
 
   useEffect(() => {
     document.onkeydown = (e) => {
