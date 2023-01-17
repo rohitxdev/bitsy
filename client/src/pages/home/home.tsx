@@ -32,7 +32,7 @@ export function Home() {
       setIsLoading(true);
       const res = await fetch("/api/shorten-url", {
         method: "POST",
-        body: /^https?:\/\//.test(longURL) ? longURL : `http://${longURL}`,
+        body: /^https?:\/\//.test(longURL) ? longURL : `https://${longURL}`,
       });
       if (!res.ok) {
         throw new Error("Could not get shortened URL.");
@@ -75,6 +75,7 @@ export function Home() {
       </section>
       <div className={styles.longUrl}>
         <div className={styles.inputContainer}>
+          <p>https://</p>
           <input
             type="text"
             aria-label="Long URL"

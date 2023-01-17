@@ -53,16 +53,26 @@
         flex-wrap: nowrap;
         border: 2px solid var(--clr-primary);
         border-radius: 0.5rem;
-        padding: 0.5rem;
+        overflow: hidden;
+        font-variation-settings: 'wght' 600;
+
+        p {
+            color: var(--clr-neutral-light);
+            background-color: var(--clr-primary);
+            height: 100%;
+            padding: 0.5rem 0.75rem;
+            font-size: 1.2rem;
+        }
 
         input {
             outline: none;
             border: none;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             background-color: var(--clr-secondary);
             color: var(--clr-neutral-light);
-            padding: 0 0.5rem;
+            padding: 0 0.75rem;
             caret-color: var(--clr-primary);
+            width: clamp(200px, 60vw, 20rem);
         }
 
     }
@@ -71,7 +81,7 @@
         background-color: var(--clr-primary);
         padding: 0.5rem 1rem;
         font-variation-settings: 'wght' 700;
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         color: var(--clr-secondary);
         border-radius: 0.5em;
         border: 2px solid var(--clr-primary);
@@ -82,6 +92,7 @@
     @include flex-center;
     background-color: transparent;
     transition: all linear 0.1s;
+    margin-right: 0.5rem;
 
     &.show {
         opacity: 1;
