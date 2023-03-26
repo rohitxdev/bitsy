@@ -16,6 +16,33 @@
     color: var(--clr-neutral-light);
     word-break: break-all;
     font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    span {
+        flex-grow: 1;
+    }
+
+    a {
+        flex-grow: 0;
+        display: grid;
+        place-content: center;
+        transition: all 0.2s;
+
+        svg {
+            height: 1.5rem;
+            stroke: var(--clr-neutral-grey);
+
+        }
+
+        &:hover {
+            svg {
+                stroke: var(--clr-neutral-light);
+            }
+        }
+    }
+
 }
 
 .btns {
